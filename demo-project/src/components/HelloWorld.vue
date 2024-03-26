@@ -77,8 +77,12 @@ h1 {
   border-radius: 5px;
   padding: 20px;
   width: 20em;
-  min-width: 95vw;
   height: 21em;
   overflow: scroll;
+}
+@media (max-width: 35em) {
+  .user-element {
+    min-width: 95vw;
+  }
 }
 </style>
