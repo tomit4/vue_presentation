@@ -26,26 +26,24 @@ onMounted(async (): Promise<void> => {
   <div class="greetings">
     <h1>{{ msg }}</h1>
   </div>
-  <div class="helloworld-wrapper">
-    <div class="users-wrapper" :key="user.id" v-for="user in users">
-      <UserCard
-        class="user-element"
-        :id="user.id"
-        :name="user.name"
-        :username="user.username"
-        :street="user.address.street"
-        :suite="user.address.suite"
-        :city="user.address.city"
-        :zipcode="user.address.zipcode"
-        :lat="user.address.geo.lat"
-        :lng="user.address.geo.lng"
-        :phone="user.phone"
-        :website="user.website"
-        :companyName="user.company.name"
-        :catchPhrase="user.company.catchPhrase"
-        :bs="user.company.bs"
-      />
-    </div>
+  <div class="users-wrapper" :key="user.id" v-for="user in users">
+    <UserCard
+      class="user-element"
+      :id="user.id"
+      :name="user.name"
+      :username="user.username"
+      :street="user.address.street"
+      :suite="user.address.suite"
+      :city="user.address.city"
+      :zipcode="user.address.zipcode"
+      :lat="user.address.geo.lat"
+      :lng="user.address.geo.lng"
+      :phone="user.phone"
+      :website="user.website"
+      :companyName="user.company.name"
+      :catchPhrase="user.company.catchPhrase"
+      :bs="user.company.bs"
+    />
   </div>
 </template>
 
@@ -59,29 +57,10 @@ h1 {
   top: -10px;
 }
 
-h3 {
-  font-size: 1.2rem;
-}
 .greetings {
   display: flex;
   justify-content: center;
   margin: 0 auto;
-}
-
-.greetings h1,
-.greetings h3 {
-  text-align: center;
-}
-
-@media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
-    text-align: left;
-  }
-}
-
-.helloword-wrapper {
-  width: 90vw;
 }
 
 .users-wrapper {
@@ -98,7 +77,7 @@ h3 {
   border-radius: 5px;
   padding: 20px;
   width: 20em;
-  max-width: 95vw;
+  min-width: 95vw;
   height: 21em;
   overflow: scroll;
 }

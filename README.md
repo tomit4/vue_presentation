@@ -474,7 +474,7 @@ Let's take a look at our simple custom event in action:
 
 (see slide_04.gif)
 
-** Two Way Bindings **
+**Two Way Bindings**
 
 As simple as the passing of props and emitting custom events was to implement,
 Vue provides another directive called `v-model` which allows us to
@@ -530,7 +530,7 @@ flexible fashion.
 
 (see slide_05.gif)
 
-** LifeCycle Hooks **
+**LifeCycle Hooks**
 
 (see vue_lifecycle_hooks.jpg)
 

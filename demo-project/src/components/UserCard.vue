@@ -19,6 +19,7 @@ defineProps<{
 
 <template>
   <div class="user-card">
+    <p><em>id:</em> {{ id }}</p>
     <p><em>Name:</em> {{ name }}</p>
     <p><em>UserName:</em> {{ username }}</p>
     <p><em>Address:</em> {{ street }}</p>
