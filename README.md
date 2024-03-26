@@ -93,7 +93,7 @@ I'll also introduce how Vue approaches Web Development using Components, which
 is quite different from ReactJS's approach syntactically. This will include an
 introduction to VueJS's Lifecycle Hooks API, which provide the Vue developer with
 ways to update and manipulate Component State, and subsequently, the DOM.
-Additionally, I'll also be covering Vue's built in directives, which
+Additionally, I'll also be covering Vue's built in Directives, which
 conditionally render HTML elements within the component based on Application
 State.
 
@@ -136,15 +136,15 @@ Vue.js - The Progressive JavaScript Framework
 ? Add Vue DevTools 7 extension for debugging? (experimental) No
 ```
 
-Once you've entered your defaults, it will then create a project folder with a
-project folder by the name you gave it. The installation process provides you
+Once you've entered your defaults, it will then create a project folder
+with the name you gave it. The installation process provides you
 with some instructions on how to initialize the dev server, so let's do just
 that:
 
 ```bash
-cd demo-project
-npm install
-npm run format
+cd demo-project &&
+npm install &&
+npm run format &&
 npm run dev
 ```
 
@@ -170,10 +170,11 @@ worked in ReactJS's ecosystem might notice some similarities.
 ### The .vue file
 
 Due to the time constraints of this presentation, we'll obviously not be going
-over each and every one of these files in detail, of particular interest will be
-what is within our src folder. Let's open up our App.vue, clean up some
-defaults, and get to work creating an Demo App that will utilize some of Vue's
-basic features. Here is our App.vue in its default state:
+over each and every one of these files in detail. Let's get down to business and
+take a look at the nitty gritty. Of particular interest will be
+what is within our `src` folder. Let's open up the entry point to our
+application, `App.vue`, clean up some defaults, and get to work creating
+a Demo App that will utilize some of Vue's basic features. Here is our `App.vue` in its default state:
 
 ```vue
 <script setup lang="ts">
@@ -271,13 +272,13 @@ nav a:first-of-type {
 
 Those of you familiar with ReactJS might be thrown for a loop here, though
 perhaps not. VueJS really embraces the concept of breaking down all aspects of
-development into individualized Components. VueJS, though it can support JSX
-syntax, it is usually highly discouraged. Instead a specialized file format
-defined by its `.vue` extension is parsed by the Vue library. Let's take a look
-at the parts of a Vue component.
+Frontend development into individualized Components. Though it is possible to write JSX style
+syntax in a Vue file, it is usually highly discouraged. Instead a specialized file format
+defined by its `.vue` extension is parsed by the Vue library, and eventually
+applied appropriately to the DOM. Let's take a look at the parts of a Vue component.
 
 Very much like a traditional HTML file, Vue files contain XML style tags that
-correspond pretty much to how they would work within HTML. We have our `<script>` tag, which provides us with access to creating JavaScript (or in this case TypeScript) logic. We also have our `<template>` tag, which encapsulates the HTML. And lastly we have our `<style>` tag, which holds our CSS.
+correspond pretty much to how they would work within HTML. We have our `<script>` tag, which provides us with access to writing our JavaScript (or in this case TypeScript) logic. We also have our `<template>` tag, which encapsulates the HTML. And lastly we have our `<style>` tag, where the scoped CSS stylings can be written.
 
 Each Vue Component's logic, structure, and stylings are encapsulated within each
 component. Technically each Component's `<script>`, `<template>`, and `<style>`
@@ -288,7 +289,8 @@ In our `App.vue` component, we'll notice right away that some HTML elements
 within our `<template>` section are familiar, like the `<header>` and `<img>`
 tags, but that others, like our `<HelloWorld>` tag, are not. Though right away,
 if you're familiar with ReactJS, you have probably already guessed that
-these are other Vue Components, or in the case of the `<RouterLink>`, these act
+these are other Vue Components, or in the case of the `<RouterLink>`, a special
+tag with access to Vue's Page Router (Vue-Router), which acts and is configured
 very much like ReactJS's Page Router.
 
 Under the `<HelloWorld>` component on line 10, you'll find there's a custom attribute
@@ -346,14 +348,15 @@ h3 {
 
 And here we see how VueJS's API gives access to static properties passed down to
 its Child Components. On lines 2-4, we see the simple `defineProps()` method
-being invoked, with the TypeScript definition of the msg property showing the
-expectation of a `string` type. On line 9, we see `handlebar` or `ejs` style
-syntax found in many Libraries, encapsulating our `msg` property, which indeed,
+being invoked, with the TypeScript definition of the `msg` property showing the
+expectation of a `string` type. On line 9, we see some "handlebar" style
+curly braces encapsulating our `msg` property, which indeed,
 renders out the `You did it!` text of our introduction page. We of course, could
-change this, and upon save, our dev server would then refresh our browser
-(probably through a websockets interface), to reflect our change, but we've all
-seen that, let's write some code that actually will emit an event back up to our
-App.vue component, and render some text back on our Home component.
+change this, and upon saving our new text, the Vite dev server would then refresh our browser
+(through Vite's ESM bundled server), to reflect the change, but we've all
+seen that and I'd rather us do something a bit more hands on, so let's write some code
+that actually will emit an event back up to our App.vue component, and render some text back
+on our Home component.
 
 First we'll need a button that emits our event. Within our `<HelloWorld.vue>`
 component, we'll write in a simple button that uses Vue's `$emit()` syntax to
@@ -387,7 +390,7 @@ import HelloWorld from "./components/HelloWorld.vue";
 let confirmed: Ref<boolean> = ref(false);
 let confirmationMsg: Ref<string> = ref("");
 
-const confirmDidIt = () => {
+const confirmDidIt = (): void => {
   confirmed.value = true;
   confirmationMsg.value = "I sure did!";
 };
@@ -426,8 +429,8 @@ variables and virtual DOM elements which we can then add basic reactivity to.
 We then define our related variables `confirmed`, and `confirmationMsg`, and use
 the ref attribute to define their starting values as `false` and an empty
 string,`''` respectively. After that we then also define a new function called
-`confirmDidIt()`, which simply sets these values to `true` and `I sure did!`
-respectively. Leaving our entire new script tag in our App.vue file like this:
+`confirmDidIt()`, which simply sets these values to `true` and `"I sure did!"`
+respectively. Leaving our entire new script tag in our App.vue file looking like this:
 
 ```vue
 <script setup lang="ts">
@@ -445,8 +448,8 @@ const confirmDidIt = () => {
 </script>
 ```
 
-Lastly, we then have some new code within our template, starting with your
-HelloWorld component, to which we've added a custom event, `@showConfirmation`:
+Lastly, we then have some new code within our template, starting with our
+`<HelloWorld>` component, to which we've added a custom event, `@showConfirmation`:
 
 ```
 <HelloWorld @showConfirmation="confirmDidIt" msg="You did it!" />
@@ -457,9 +460,9 @@ called `showConfirmation` is <em>emitted</em> up from our child `<HelloWorld>` c
 to then invoke our `confirmDidIt` function. As we noticed earlier, the
 `confirmDidIt` function simply changes the values that our `confirmed` and
 `confirmationMsg` variables are referencing via `ref`. So what does changing
-these values do? Well below our `<HelloWorld>` component, we can see that we've
-also added two lines that include what Vue calls "directives", custom attributes
-that in this case act like basic conditionals:
+these values do? Well below our `<HelloWorld>` component, in our `<template>` section, we
+can see that we've also added two lines that include what Vue calls "directives",
+custom attributes that in this case act like basic conditionals:
 
 ```
 <p v-if="confirmed">{{ confirmationMsg }}</p>
@@ -472,7 +475,7 @@ the reference to `"confirmed"` returns a truthy value, which, if we emitted up
 the `showConfirmation` event from the button in our `<HelloWorld>` component, then
 the `confirmDidIt()` function fires and the values of our references change.
 The `v-else` statement is there solely to render a message that asks the user
-the confirm that they "did it", which genherally just indicates they should push
+to confirm that they "did it", which generally just indicates they should push
 the button.
 
 This is a trivial example, but it demonstrates the ease with which Vue treats
@@ -530,10 +533,10 @@ const input = defineModel();
 ```
 
 These snippets are simplified to highlight the code relevant to the subject of Vue's two-way data binding.
-We first utilize the Vue's `defineModel()` macro in each component. Within the parent component, `App.vue`, we establish a default value of "inputString". Within our template, we then "bind" this input variable to our `<HelloWorld>` component as well as our new `<input>` element using the `v-model` syntax. In essence, this is a form of syntactical sugar over the creationg of refs, props, and emits between a parent and child component, allowing each component to "see" this particular data and display it on the page.
+We first utilize the Vue's `defineModel()` macro in each component. Within the parent component, `App.vue`, we establish a default value of "inputString". Within our template, we then "bind" this input variable to our `<HelloWorld>` component as well as our new `<input>` element using the `v-model` syntax. In essence, this is a form of syntactical sugar over the creation of `ref`, `defineProps()`, and `$emits` between a parent and child component, allowing each component to "see" this particular data, display it on the Child Component, and modify it's state via the user interactions with the input element.
 
-This allows whatever we type into our new input field in our App.vue parent
-component to be rendered in our child `HelloWorld.vue` component. As before, this is a
+In essence, whatever we type into our new input field in our App.vue parent
+component is rendered in our child `HelloWorld.vue` component. As before, this is a
 trivial example, but it demonstrates Vue's emphasis on giving developers
 multiple tools to create reactivity within their components in an easy and
 flexible fashion.
@@ -549,28 +552,28 @@ them to inject custom logic at various times during the lifecycle of each
 Component. Sometimes this is to ensure certain custom directives are loaded
 prior to the component loading. Other times, the Developer might wish to ensure
 a certain function cleans up some data (like localStorage or cookies) prior to
-or after a component loads, or is "mounted".
+or after a component loads, or is "mounted". Here is a diagram of the entire
+LifeCycle Method of a Vue component from Vue's official documentation:
 
 <div align="center">
     <img src="https://raw.githubusercontent.com/tomit4/vue_presentation/main/assets/vue_lifecycle_hooks.png"/>
 </div>
 
 As this is a simple introduction to Vue, I won't be covering each lifecycle
-hook in detail, and rather will leave you with the specific documentation
-[here](https://vuejs.org/guide/essentials/lifecycle.html).
+hook in detail, and rather will leave you with the [specific documentation](https://vuejs.org/guide/essentials/lifecycle.html).
 
-Instead, I'll provide you with a brief demonstration of Vue's `onMounted()`
+I will, however, provide you with a brief demonstration of Vue's `onMounted()`
 LifeCycle method, which, according to the [official docs](https://vuejs.org/api/composition-api-lifecycle.html#onmounted), is typically used for performing side effects that need access to the component's rendered DOM.
 
 In the following demonstration, I'll be using a fake REST API called [jsonplaceholder](https://jsonplaceholder.typicode.com/) to bring in some fake data about users and render it on the page.
 
-Because I want this to happen as soon as the child component loads (i.e. is Mounted), I'll be using a classic JavaScript method, `fetch()` within vue's `onMounted()` lifecycle method to pull in this data from the API and then performing logic to render it nicely in our component. Additionally, I'll also demonstrate the very useful `v-for` directive, which works akin to how `map` works within ReactJS's JSX syntax.
+Because I want this to happen as soon as the child component loads (i.e. is Mounted), I'll be using a classic JavaScript method, `fetch()` within Vue's `onMounted()` lifecycle method to pull in this data from the API and then performing logic to render it nicely in our component. Additionally, I'll also demonstrate the very useful `v-for` directive, which is akin to how `map` is usually utilized within ReactJS's JSX syntax.
 
 ### Demo Project
 
 Firstly, let's clean up our App.vue file so that we can clearly demonstrate
 this. We'll solely keep the Vue Logo, and greatly simplify the stylings. We'll
-keep first child component, HelloWorld, more or less the same, only passing the
+also keep the first child component, `<HelloWorld>`, more or less the same: only passing the
 props `msg` as the value, "Demo Project", to be rendered within our
 `<HelloWorld>` component:
 
@@ -642,11 +645,11 @@ onMounted(async (): Promise<void> => {
 </script>
 ```
 
-You'll notice right away that we've introduced a new component `<UserCard>`: You'll
-also notice we now bring in the onMounted hook. As mentioned earlier, the
+You'll notice right away that we've introduced a new component `<UserCard>`. You'll
+also notice we now import the `onMounted()` hook from the Vue library. As mentioned earlier, the
 `onMounted()` hook encapsulates custom logic that runs after the component has
-been "mounted", meaning that its virtual DOM nodes have been loaded into the
-virtual DOM has been created and then inserted into it's parent component's
+been "mounted", meaning that its virtual DOM nodes have been created, loaded into the
+virtual DOM, and then inserted into it's parent component's
 virtual DOM. If this sounds confusing, don't worry too much about it,
 essentially it simply means it runs whenever this component loads.
 
@@ -936,8 +939,8 @@ and render each object individually using the `v-for` directive:
 Specifically, let's break down what's happening with this `v-for` loop, although
 it is more or less self-explanatory. Very much like the common use of `map()`
 within React JSX, we can iterate over values returned from Vue's `ref` attribute using
-Vue's `v-for` directive. This `v-for` works pretty much the same way that
-JavaScript's [for...in loop](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in).
+Vue's `v-for` directive. The `v-for` directive works pretty much the same way that
+JavaScript's [for...in loop](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in) works.
 
 ```
 <div class="users-wrapper" :key="user.id" v-for="user in users">
@@ -957,22 +960,22 @@ there as well:
 <div v-for="(value, name, index) in object"></div>
 ```
 
-The `:key="user.id"` syntax might be familiar to you if you are coming from the
-ReactJS ecosystem. In both VueJS and ReactJS, whenver looping over objects or
-arrays, a <em>unique</em> key must be set to ensure that unexpected behavior
-does not occur and the Virtual DOM does not inadvertently destroy data passed to
-it when a re-render of our component occurs. This can happen when some other
-part of our component's state changes, but the majority of it remains the same.
+The `:key="user.id"` syntax might be familiar to you if you have worked with
+ReactJS. In both VueJS and ReactJS, whenever looping over objects or
+arrays, a <em>unique</em> key must be set to ensure that
+the Virtual DOM does not inadvertently destroy data passed to
+it when a re-render of our component occurs. This can happen during any point of
+the lifecycle of our component, usually during a change of state or re-render.
 
-These unique keys keep a sort of record that holds onto the state of our data, ensuring
+These unique keys keep a sort of record or reference to the state of our data, ensuring
 that the Virtual DOM does not re-render or destroy data related to state that
 has not changed. Note that you may be tempted to use the `index` of an array as
 the key when this occurs. <em>Do NOT do this</em>, as Array ordered indexes can
-change when data is dynamically rendered (like when pulling in an API). Usually
+change when data is dynamically rendered (like when pulling in data from an API). Usually
 some other unique identifier is provided via any well designed API, like in this
 case, where we utilize the `user.id` as our key.
 
-Finally, within our `v-for` loop, we pass the `ref`, `users` array down into our custom `<UserCard>` component. To recap briefly, recall that this array was popualted by calling `fetch()` within Vue's `onMounted()` hook.
+Finally, within our `v-for` loop, we pass the `ref`(reference to our) `users` array down into our custom `<UserCard>` component. To recap briefly, recall that this array was popualted by calling `fetch()` within Vue's `onMounted()` hook.
 
 Note that within our `<UserCard>` component, we also introduce a new
 vue-directive, though it may not be apparent. Note the syntax here with each of
@@ -1114,7 +1117,7 @@ defineProps<{
 ```
 
 Having access to these props, we can then simply populate our `<template>` with
-the props data using the ejs handlebars syntax:
+the props data using the double curly brace, "handlebars" syntax:
 
 ```vue
 <template>
@@ -1146,30 +1149,30 @@ And that's it. Here is what our final output looks like:
 ### Conclusion
 
 In truth, we have only really scratched the surface of what VueJS has to offer.
-We didn't even cover the Page Router([Vue-Router](https://router.vuejs.org/)), the State Manager, [Pinia](https://pinia.vuejs.org/core-concepts/state.html), or the Meta Framework, [Nuxt](https://nuxt.com/).
+We didn't even cover the Page Router, [Vue-Router](https://router.vuejs.org/), the State Manager, [Pinia](https://pinia.vuejs.org/core-concepts/state.html), or the Meta Framework, [Nuxt](https://nuxt.com/).
 
 Keep in mind that Vue is now on its 3rd version, and very much like ReactJS,
 there are <em>significant</em> differences between versions, so should you
 choose to use Vue, I highly recommend you use Vue3, as Vue2 is deprecated,
-and it utilizes a less ergonomic syntax (i.e. always work with the Composition
+and also utilizes a less ergonomic syntax (i.e. always use the Composition
 API, and use the "setup" option with the `<script>` tags by default). As always,
 be discerning when looking into documentation that is over a year old. Like
 other JavaScript frameworks, VueJS's ecosystem moves rapidly and changes
 quickly. They have recently been experimenting with a new "Vapor" mode that
-will allow Developers to experiment with direct JavaScript compilation
+will allow Developers to work with direct JavaScript compilation
 instead of working with a Virtual DOM. This is very much taking inspirations
-from both the SvelteJS JavaScript library, and in my opinion holds great
+from the SvelteJS JavaScript library, and in my opinion holds great
 potential for the future of Frontend Web Development.
 
 As mentioned earlier, it is not lost on me that ReactJS is the defacto standard
-in the JavaScript framework ecosystem at this time. And while I do appreciate
-all that ReactJS has done to advance this aspect of Web Development further,
+in the Frontend Web Development ecosystem at this time. And while I do appreciate
+all that the ReactJS team has done to advance this aspect of Web Development further,
 there are a great number of JavaScript frameworks out there that offer up
-different approaches to handling classic Front End Web Development
+different approaches to handling common Web Development
 challenges. VueJS, while my personal favorite, is just one of them, and I'd
-invite you to take a look at others (SvelteJS takes a lot of inspiration
-stylistically from VueJS, and SolidJS remains the most performant of all
-the modern frontend JavaScript frameworks currently).
+invite you to take a look at others ([SvelteJS](https://svelte.dev/) takes a lot of inspiration
+syntactically from VueJS, and [SolidJS](https://www.solidjs.com/) is currently the most performant of all
+the modern frontend JavaScript frameworks according to recent benchmarks).
 
 #### Other Vue Related Resources
 
@@ -1179,3 +1182,7 @@ I invite you to look into VueJS, and it's large ecosystem which includes their:
 - [Discord Channel](https://discord.com/invite/HBherRA)
 
 And of course, you can find more out at their [Official Website](https://vuejs.org/).
+
+Thank you for granting me the opportunity to present on VueJS today, I truly do
+enjoy working with VueJS and it has been my pleasure to give you this humble
+introduction to this fantastic library.
