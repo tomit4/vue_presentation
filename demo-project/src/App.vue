@@ -3,6 +3,8 @@ import { ref, type Ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 
+const input = defineModel({ default: 'inputString' })
+
 let confirmed: Ref<boolean> = ref(false)
 let confirmationMsg: Ref<string> = ref('')
 
@@ -17,14 +19,17 @@ const confirmDidIt = () => {
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld @showConfirmation="confirmDidIt" msg="You did it!" />
+      <HelloWorld v-model="input" @showConfirmation="confirmDidIt" msg="You did it!" />
+      <br />
+      <!--
       <p v-if="confirmed">{{ confirmationMsg }}</p>
       <p v-else>Please Confirm You Did It!</p>
-
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
+      -->
+      <input v-model="input" />
     </div>
   </header>
 

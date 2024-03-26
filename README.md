@@ -159,6 +159,8 @@ worked in ReactJS's ecosystem might notice some similarities.
 
 (insert slide_03.png here)
 
+**The .vue file**
+
 Due to the time constraints of this presentation, we'll obviously not be going
 over each and every one of these files in detail, of particular interest will be
 what is within our src folder. Let's open up our App.vue, clean up some
@@ -332,6 +334,8 @@ h3 {
 </style>
 ```
 
+**Props, Emits, and Refs**
+
 And here we see how VueJS's API gives access to static properties passed down to
 its Child Components. On lines 2-4, we see the simple `defineProps()` method
 being invoked, with the TypeScript definition of the msg property showing the
@@ -465,3 +469,85 @@ the button.
 
 This is a trivial example, but it demonstrates the ease with which Vue treats
 the passing of props.
+
+Let's take a look at our simple custom event in action:
+
+(see slide_04.gif)
+
+** Two Way Bindings **
+
+As simple as the passing of props and emitting custom events was to implement,
+Vue provides another directive called `v-model` which allows us to
+essentially do the same with less syntax. In this section, let's build out a
+basic form within a child component, where our parent component, App.vue, will have a
+basic text element that will change whenever our form input changes.
+
+Starting with App.vue:
+
+```vue
+<script setup lang="ts">
+// ...
+const input = defineModel({ default: "inputString" });
+// ...
+</script>
+
+<template>
+  <HelloWorld
+    v-model="input"
+    @showConfirmation="confirmDidIt"
+    msg="You did it!"
+  />
+  <br />
+  <input v-model="input" />
+</template>
+```
+
+And also our child component, HelloWorld.vue:
+
+```vue
+<script setup lang="ts">
+//...
+const input = defineModel();
+</script>
+
+<template>
+  <div class="greetings">
+    <h1 class="green">{{ msg }}</h1>
+    <h2>{{ input }}</h2>
+    <br />
+  </div>
+</template>
+```
+
+These snippets are simplified to highlight the code relevant to the subject of Vue's two-way data binding.
+We first utilize the Vue's `defineModel()` macro in each component. Within the parent component, `App.vue`, we establish a default value of "inputString". Within our template, we then "bind" this input variable to our `<HelloWorld>` component as well as our new `<input>` element using the `v-model` syntax. In essence, this is a form of syntactical sugar over the creationg of refs, props, and emits between a parent and child component, allowing each component to "see" this particular data and display it on the page.
+
+This allows whatever we type into our new input field in our App.vue parent
+component to be rendered in our child `HelloWorld.vue` component. As before, this is a
+trivial example, but it demonstrates Vue's emphasis on giving developers
+multiple tools to create reactivity within their components in an easy and
+flexible fashion.
+
+(see slide_05.gif)
+
+** LifeCycle Hooks **
+
+(see vue_lifecycle_hooks.jpg)
+
+VueJS gives Developers access to various LifeCycle Hook Methods, which allows
+them to inject custom logic at various times during the lifecycle of each
+Component. Sometimes this is to ensure certain custom directives are loaded
+prior to the component loading. Other times, the Developer might wish to ensure
+a certain function cleans up some data (like localStorage or cookies) prior to
+or after a component loads, or is "mounted".
+
+As this is a simple introduction to Vue, I won't be covering each lifecycle
+hook in detail, and rather will leave you with the specific documentation
+[here](https://vuejs.org/guide/essentials/lifecycle.html).
+
+Instead, I'll provide you with a brief demonstration of Vue's `onMounted()`
+LifeCycle method, which, according to the [official docs](https://vuejs.org/api/composition-api-lifecycle.html#onmounted), is typically used for performing side effects that need access to the component's rendered DOM.
+
+In the following demonstration, I'll be using a fake REST API called [jsonplaceholder](https://jsonplaceholder.typicode.com/) to bring in some fake data about users and render it on the page.
+
+Because I want this to happen as soon as the child component loads (i.e. is Mounted), I'll be using a classic JavaScript method, `fetch()` within vue's `onMounted()` lifecycle method to pull in this data from the API and then performing logic to render it nicely in our component. Additionally, I'll also demonstrate the very useful `v-for` directive, which works akin to how `map` works within ReactJS's JSX syntax.
