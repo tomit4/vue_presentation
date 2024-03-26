@@ -294,7 +294,7 @@ tag with access to Vue's Page Router (Vue-Router), which acts and is configured
 very much like ReactJS's Page Router.
 
 Under the `<HelloWorld>` component on line 10, you'll find there's a custom attribute
-called `msg`, which is set the string, "You did it!". As you might have guessed,
+called `msg`, which is set to the string, "You did it!". As you might have guessed,
 these are properties being passed down to the HelloWorld component. Let's
 take a look at our `<HelloWorld>` component now (under the src/components
 directory):
@@ -441,7 +441,7 @@ import HelloWorld from "./components/HelloWorld.vue";
 let confirmed: Ref<boolean | undefined> = ref(undefined);
 let confirmationMsg: Ref<string> = ref("");
 
-const confirmDidIt = () => {
+const confirmDidIt = (): void => {
   confirmed.value = true;
   confirmationMsg.value = "I sure did!";
 };
@@ -553,16 +553,14 @@ Component. Sometimes this is to ensure certain custom directives are loaded
 prior to the component loading. Other times, the Developer might wish to ensure
 a certain function cleans up some data (like localStorage or cookies) prior to
 or after a component loads, or is "mounted". Here is a diagram of the entire
-LifeCycle Method of a Vue component from Vue's official documentation:
+LifeCycle Method of a Vue component from Vue's [official documentation on the subject](https://vuejs.org/guide/essentials/lifecycle.html):
 
 <div align="center">
     <img src="https://raw.githubusercontent.com/tomit4/vue_presentation/main/assets/vue_lifecycle_hooks.png"/>
 </div>
 
 As this is a simple introduction to Vue, I won't be covering each lifecycle
-hook in detail, and rather will leave you with the [specific documentation](https://vuejs.org/guide/essentials/lifecycle.html).
-
-I will, however, provide you with a brief demonstration of Vue's `onMounted()`
+hook in detaial. I will, however, provide you with a brief demonstration of Vue's `onMounted()`
 LifeCycle method, which, according to the [official docs](https://vuejs.org/api/composition-api-lifecycle.html#onmounted), is typically used for performing side effects that need access to the component's rendered DOM.
 
 In the following demonstration, I'll be using a fake REST API called [jsonplaceholder](https://jsonplaceholder.typicode.com/) to bring in some fake data about users and render it on the page.
