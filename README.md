@@ -1,8 +1,12 @@
-# VueJS
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tomit4/vue_presentation/main/assets/logo.svg"/>
+</div>
 
-## That Other JS Framework
+<h1 align="center">VueJS</h1>
 
-### On JavaScript Frameworks
+<h2 align="center">The Other JS Framework</h1>
+
+### Introduction
 
 The ecosystem within Web Development is perhaps the most fast past and
 continually changing environment out of all Development Fields. While the
@@ -148,18 +152,22 @@ Once npm has finished installing the required dependencies, the dev server
 should be running on your localhost, port 5173 by default. Let's take a look and
 see the default page:
 
-(insert slide_02.png here)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tomit4/vue_presentation/main/assets/slide_02.png"/>
+</div>
 
-## The Basics
+### The Basics
 
 This helpful introduction page provides you with plenty of excellent
 recommendations to get started, but in the interest of time. let's go over the
 basics. Let's take a look at Vue's basic file structure. Those of you who have
 worked in ReactJS's ecosystem might notice some similarities.
 
-(insert slide_03.png here)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tomit4/vue_presentation/main/assets/slide_03.png"/>
+</div>
 
-**The .vue file**
+### The .vue file
 
 Due to the time constraints of this presentation, we'll obviously not be going
 over each and every one of these files in detail, of particular interest will be
@@ -334,7 +342,7 @@ h3 {
 </style>
 ```
 
-**Props, Emits, and Refs**
+### Props, Emits, and Refs
 
 And here we see how VueJS's API gives access to static properties passed down to
 its Child Components. On lines 2-4, we see the simple `defineProps()` method
@@ -472,9 +480,11 @@ the passing of props.
 
 Let's take a look at our simple custom event in action:
 
-(see slide_04.gif)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tomit4/vue_presentation/main/assets/slide_04.gif"/>
+</div>
 
-**Two Way Bindings**
+### Two Way Bindings
 
 As simple as the passing of props and emitting custom events was to implement,
 Vue provides another directive called `v-model` which allows us to
@@ -528,11 +538,11 @@ trivial example, but it demonstrates Vue's emphasis on giving developers
 multiple tools to create reactivity within their components in an easy and
 flexible fashion.
 
-(see slide_05.gif)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tomit4/vue_presentation/main/assets/slide_05.gif"/>
+</div>
 
-**LifeCycle Hooks**
-
-(see vue_lifecycle_hooks.jpg)
+### LifeCycle Hooks
 
 VueJS gives Developers access to various LifeCycle Hook Methods, which allows
 them to inject custom logic at various times during the lifecycle of each
@@ -540,6 +550,10 @@ Component. Sometimes this is to ensure certain custom directives are loaded
 prior to the component loading. Other times, the Developer might wish to ensure
 a certain function cleans up some data (like localStorage or cookies) prior to
 or after a component loads, or is "mounted".
+
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tomit4/vue_presentation/main/assets/vue_lifecycle_hooks.png"/>
+</div>
 
 As this is a simple introduction to Vue, I won't be covering each lifecycle
 hook in detail, and rather will leave you with the specific documentation
@@ -552,7 +566,7 @@ In the following demonstration, I'll be using a fake REST API called [jsonplaceh
 
 Because I want this to happen as soon as the child component loads (i.e. is Mounted), I'll be using a classic JavaScript method, `fetch()` within vue's `onMounted()` lifecycle method to pull in this data from the API and then performing logic to render it nicely in our component. Additionally, I'll also demonstrate the very useful `v-for` directive, which works akin to how `map` works within ReactJS's JSX syntax.
 
-**Demo Project**
+### Demo Project
 
 Firstly, let's clean up our App.vue file so that we can clearly demonstrate
 this. We'll solely keep the Vue Logo, and greatly simplify the stylings. We'll
@@ -953,7 +967,7 @@ part of our component's state changes, but the majority of it remains the same.
 These unique keys keep a sort of record that holds onto the state of our data, ensuring
 that the Virtual DOM does not re-render or destroy data related to state that
 has not changed. Note that you may be tempted to use the `index` of an array as
-the key when this occurs. <em>Do NOT do this<em>, as Array ordered indexes can
+the key when this occurs. <em>Do NOT do this</em>, as Array ordered indexes can
 change when data is dynamically rendered (like when pulling in an API). Usually
 some other unique identifier is provided via any well designed API, like in this
 case, where we utilize the `user.id` as our key.
@@ -1125,7 +1139,9 @@ the props data using the ejs handlebars syntax:
 
 And that's it. Here is what our final output looks like:
 
-(slide_06.gif)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tomit4/vue_presentation/main/assets/slide_06.gif"/>
+</div>
 
 ### Conclusion
 
