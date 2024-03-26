@@ -1179,7 +1179,7 @@ I invite you to look into VueJS, and it's large ecosystem which includes their:
 - [Jobs Board](https://vuejobs.com/?ref=vuejs)
 - [Discord Channel](https://discord.com/invite/HBherRA)
 
-And of course, you can find more out at their [Official Website](https://vuejs.org/).
+And of course, you can find out more at their [Official Website](https://vuejs.org/).
 
 Thank you for granting me the opportunity to present on VueJS today, I truly do
 enjoy working with VueJS and it has been my pleasure to give you this humble
