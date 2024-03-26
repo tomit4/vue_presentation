@@ -1,39 +1,15 @@
 <script setup lang="ts">
-import { ref, type Ref } from 'vue'
-import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-
-const input = defineModel({ default: 'inputString' })
-
-let confirmed: Ref<boolean> = ref(false)
-let confirmationMsg: Ref<string> = ref('')
-
-const confirmDidIt = () => {
-  confirmed.value = true
-  confirmationMsg.value = 'I sure did!'
-}
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
     <div class="wrapper">
-      <HelloWorld v-model="input" @showConfirmation="confirmDidIt" msg="You did it!" />
+      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+      <HelloWorld msg="Demo Project" />
       <br />
-      <!--
-      <p v-if="confirmed">{{ confirmationMsg }}</p>
-      <p v-else>Please Confirm You Did It!</p>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-      -->
-      <input v-model="input" />
     </div>
   </header>
-
-  <RouterView />
 </template>
 
 <style scoped>
@@ -72,6 +48,11 @@ nav a:first-of-type {
   border: 0;
 }
 
+.wrapper {
+  margin: 0 auto;
+}
+
+/*
 @media (min-width: 1024px) {
   header {
     display: flex;
@@ -98,4 +79,5 @@ nav a:first-of-type {
     margin-top: 1rem;
   }
 }
+*/
 </style>
