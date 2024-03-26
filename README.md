@@ -551,3 +551,580 @@ LifeCycle method, which, according to the [official docs](https://vuejs.org/api/
 In the following demonstration, I'll be using a fake REST API called [jsonplaceholder](https://jsonplaceholder.typicode.com/) to bring in some fake data about users and render it on the page.
 
 Because I want this to happen as soon as the child component loads (i.e. is Mounted), I'll be using a classic JavaScript method, `fetch()` within vue's `onMounted()` lifecycle method to pull in this data from the API and then performing logic to render it nicely in our component. Additionally, I'll also demonstrate the very useful `v-for` directive, which works akin to how `map` works within ReactJS's JSX syntax.
+
+**Demo Project**
+
+Firstly, let's clean up our App.vue file so that we can clearly demonstrate
+this. We'll solely keep the Vue Logo, and greatly simplify the stylings. We'll
+keep first child component, HelloWorld, more or less the same, only passing the
+props `msg` as the value, "Demo Project", to be rendered within our
+`<HelloWorld>` component:
+
+```vue
+<script setup lang="ts">
+import HelloWorld from "./components/HelloWorld.vue";
+</script>
+
+<template>
+  <header>
+    <div class="wrapper">
+      <img
+        alt="Vue logo"
+        class="logo"
+        src="@/assets/logo.svg"
+        width="125"
+        height="125"
+      />
+      <HelloWorld msg="Demo Project" />
+      <br />
+    </div>
+  </header>
+</template>
+
+<style scoped>
+header {
+  line-height: 1.5;
+  max-height: 100vh;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 2rem;
+}
+
+.wrapper {
+  margin: 0 auto;
+}
+</style>
+```
+
+Not much we haven't seen already, let's move on. Here in our `<HelloWorld.vue>`
+component, we've greatly changed around things to demonstrate the `onMounted()`
+hook. Let's break down the `<script>` and `<template>` parts of our component.
+
+```vue
+<script setup lang="ts">
+import { ref, type Ref, onMounted } from "vue";
+import UserCard from "../components/UserCard.vue";
+
+defineProps<{ msg: string }>();
+
+const users: Ref<Array> = ref([]);
+
+onMounted(async (): Promise<void> => {
+  try {
+    const res = await fetch("https://jsonplaceholder.typicode.com/users", {
+      method: "GET",
+    });
+    if (!res.ok) {
+      throw new Error("ERROR while grabbing users from jsonplaceholder");
+    }
+    const jsonRes = await res.json();
+    users.value = jsonRes;
+  } catch (err) {
+    if (err instanceof Error) console.error(err.message);
+  }
+});
+</script>
+```
+
+You'll notice right away that we've introduced a new component `<UserCard>`: You'll
+also notice we now bring in the onMounted hook. As mentioned earlier, the
+`onMounted()` hook encapsulates custom logic that runs after the component has
+been "mounted", meaning that its virtual DOM nodes have been loaded into the
+virtual DOM has been created and then inserted into it's parent component's
+virtual DOM. If this sounds confusing, don't worry too much about it,
+essentially it simply means it runs whenever this component loads.
+
+You'll also notice that we create a new `ref`, into which we instantiate a new
+Array object.
+
+Within the `onMounted()` hook, we utilize the native fetch API to create a
+simple HTTP GET request to the url,
+`https://jsonplaceholder.typicode.com/users`. This simple JSON API is a
+toy REST API which returns various dummy JSON data. In this case, if
+queried via HTTP GET, this URL endpoint returns this JSON:
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Leanne Graham",
+    "username": "Bret",
+    "email": "Sincere@april.biz",
+    "address": {
+      "street": "Kulas Light",
+      "suite": "Apt. 556",
+      "city": "Gwenborough",
+      "zipcode": "92998-3874",
+      "geo": {
+        "lat": "-37.3159",
+        "lng": "81.1496"
+      }
+    },
+    "phone": "1-770-736-8031 x56442",
+    "website": "hildegard.org",
+    "company": {
+      "name": "Romaguera-Crona",
+      "catchPhrase": "Multi-layered client-server neural-net",
+      "bs": "harness real-time e-markets"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Ervin Howell",
+    "username": "Antonette",
+    "email": "Shanna@melissa.tv",
+    "address": {
+      "street": "Victor Plains",
+      "suite": "Suite 879",
+      "city": "Wisokyburgh",
+      "zipcode": "90566-7771",
+      "geo": {
+        "lat": "-43.9509",
+        "lng": "-34.4618"
+      }
+    },
+    "phone": "010-692-6593 x09125",
+    "website": "anastasia.net",
+    "company": {
+      "name": "Deckow-Crist",
+      "catchPhrase": "Proactive didactic contingency",
+      "bs": "synergize scalable supply-chains"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Clementine Bauch",
+    "username": "Samantha",
+    "email": "Nathan@yesenia.net",
+    "address": {
+      "street": "Douglas Extension",
+      "suite": "Suite 847",
+      "city": "McKenziehaven",
+      "zipcode": "59590-4157",
+      "geo": {
+        "lat": "-68.6102",
+        "lng": "-47.0653"
+      }
+    },
+    "phone": "1-463-123-4447",
+    "website": "ramiro.info",
+    "company": {
+      "name": "Romaguera-Jacobson",
+      "catchPhrase": "Face to face bifurcated interface",
+      "bs": "e-enable strategic applications"
+    }
+  },
+  {
+    "id": 4,
+    "name": "Patricia Lebsack",
+    "username": "Karianne",
+    "email": "Julianne.OConner@kory.org",
+    "address": {
+      "street": "Hoeger Mall",
+      "suite": "Apt. 692",
+      "city": "South Elvis",
+      "zipcode": "53919-4257",
+      "geo": {
+        "lat": "29.4572",
+        "lng": "-164.2990"
+      }
+    },
+    "phone": "493-170-9623 x156",
+    "website": "kale.biz",
+    "company": {
+      "name": "Robel-Corkery",
+      "catchPhrase": "Multi-tiered zero tolerance productivity",
+      "bs": "transition cutting-edge web services"
+    }
+  },
+  {
+    "id": 5,
+    "name": "Chelsey Dietrich",
+    "username": "Kamren",
+    "email": "Lucio_Hettinger@annie.ca",
+    "address": {
+      "street": "Skiles Walks",
+      "suite": "Suite 351",
+      "city": "Roscoeview",
+      "zipcode": "33263",
+      "geo": {
+        "lat": "-31.8129",
+        "lng": "62.5342"
+      }
+    },
+    "phone": "(254)954-1289",
+    "website": "demarco.info",
+    "company": {
+      "name": "Keebler LLC",
+      "catchPhrase": "User-centric fault-tolerant solution",
+      "bs": "revolutionize end-to-end systems"
+    }
+  },
+  {
+    "id": 6,
+    "name": "Mrs. Dennis Schulist",
+    "username": "Leopoldo_Corkery",
+    "email": "Karley_Dach@jasper.info",
+    "address": {
+      "street": "Norberto Crossing",
+      "suite": "Apt. 950",
+      "city": "South Christy",
+      "zipcode": "23505-1337",
+      "geo": {
+        "lat": "-71.4197",
+        "lng": "71.7478"
+      }
+    },
+    "phone": "1-477-935-8478 x6430",
+    "website": "ola.org",
+    "company": {
+      "name": "Considine-Lockman",
+      "catchPhrase": "Synchronised bottom-line interface",
+      "bs": "e-enable innovative applications"
+    }
+  },
+  {
+    "id": 7,
+    "name": "Kurtis Weissnat",
+    "username": "Elwyn.Skiles",
+    "email": "Telly.Hoeger@billy.biz",
+    "address": {
+      "street": "Rex Trail",
+      "suite": "Suite 280",
+      "city": "Howemouth",
+      "zipcode": "58804-1099",
+      "geo": {
+        "lat": "24.8918",
+        "lng": "21.8984"
+      }
+    },
+    "phone": "210.067.6132",
+    "website": "elvis.io",
+    "company": {
+      "name": "Johns Group",
+      "catchPhrase": "Configurable multimedia task-force",
+      "bs": "generate enterprise e-tailers"
+    }
+  },
+  {
+    "id": 8,
+    "name": "Nicholas Runolfsdottir V",
+    "username": "Maxime_Nienow",
+    "email": "Sherwood@rosamond.me",
+    "address": {
+      "street": "Ellsworth Summit",
+      "suite": "Suite 729",
+      "city": "Aliyaview",
+      "zipcode": "45169",
+      "geo": {
+        "lat": "-14.3990",
+        "lng": "-120.7677"
+      }
+    },
+    "phone": "586.493.6943 x140",
+    "website": "jacynthe.com",
+    "company": {
+      "name": "Abernathy Group",
+      "catchPhrase": "Implemented secondary concept",
+      "bs": "e-enable extensible e-tailers"
+    }
+  },
+  {
+    "id": 9,
+    "name": "Glenna Reichert",
+    "username": "Delphine",
+    "email": "Chaim_McDermott@dana.io",
+    "address": {
+      "street": "Dayna Park",
+      "suite": "Suite 449",
+      "city": "Bartholomebury",
+      "zipcode": "76495-3109",
+      "geo": {
+        "lat": "24.6463",
+        "lng": "-168.8889"
+      }
+    },
+    "phone": "(775)976-6794 x41206",
+    "website": "conrad.com",
+    "company": {
+      "name": "Yost and Sons",
+      "catchPhrase": "Switchable contextually-based project",
+      "bs": "aggregate real-time technologies"
+    }
+  },
+  {
+    "id": 10,
+    "name": "Clementina DuBuque",
+    "username": "Moriah.Stanton",
+    "email": "Rey.Padberg@karina.biz",
+    "address": {
+      "street": "Kattie Turnpike",
+      "suite": "Suite 198",
+      "city": "Lebsackbury",
+      "zipcode": "31428-2261",
+      "geo": {
+        "lat": "-38.2386",
+        "lng": "57.2232"
+      }
+    },
+    "phone": "024-648-3804",
+    "website": "ambrose.net",
+    "company": {
+      "name": "Hoeger LLC",
+      "catchPhrase": "Centralized empowering task-force",
+      "bs": "target end-to-end models"
+    }
+  }
+]
+```
+
+As long as our `fetch()` is successful, we then assign our `users` `ref` this
+data on line 17:
+
+```
+const jsonRes = await res.json()
+users.value = jsonRes
+```
+
+Great! We've got our user data as soon as this `<HelloWorld>` component mounts!
+Let's now move onto our `<template>` tag and see how we then send this data down
+and render each object individually using the `v-for` directive:
+
+```vue
+<template>
+  <div class="greetings">
+    <h1>{{ msg }}</h1>
+  </div>
+  <div class="users-wrapper" :key="user.id" v-for="user in users">
+    <UserCard
+      class="user-element"
+      :id="user.id"
+      :name="user.name"
+      :username="user.username"
+      :street="user.address.street"
+      :suite="user.address.suite"
+      :city="user.address.city"
+      :zipcode="user.address.zipcode"
+      :lat="user.address.geo.lat"
+      :lng="user.address.geo.lng"
+      :phone="user.phone"
+      :website="user.website"
+      :companyName="user.company.name"
+      :catchPhrase="user.company.catchPhrase"
+      :bs="user.company.bs"
+    />
+  </div>
+</template>
+```
+
+Specifically, let's break down what's happening with this `v-for` loop, although
+it is more or less self-explanatory. Very much like the common use of `map()`
+within React JSX, we can iterate over values returned from Vue's `ref` attribute using
+Vue's `v-for` directive. This `v-for` works pretty much the same way that
+JavaScript's [for...in loop](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in).
+
+```
+<div class="users-wrapper" :key="user.id" v-for="user in users">
+```
+
+Should you desire to reference the index, by the way, you can do so like this:
+
+```
+<div v-for="(item, index) in items"></div>
+```
+
+Or if you wish to iterate an object instead of an array, you have a few options
+there as well:
+
+```
+<div v-for="(value, key) in object"></div>
+<div v-for="(value, name, index) in object"></div>
+```
+
+The `:key="user.id"` syntax might be familiar to you if you are coming from the
+ReactJS ecosystem. In both VueJS and ReactJS, whenver looping over objects or
+arrays, a <em>unique</em> key must be set to ensure that unexpected behavior
+does not occur and the Virtual DOM does not inadvertently destroy data passed to
+it when a re-render of our component occurs. This can happen when some other
+part of our component's state changes, but the majority of it remains the same.
+
+These unique keys keep a sort of record that holds onto the state of our data, ensuring
+that the Virtual DOM does not re-render or destroy data related to state that
+has not changed. Note that you may be tempted to use the `index` of an array as
+the key when this occurs. <em>Do NOT do this<em>, as Array ordered indexes can
+change when data is dynamically rendered (like when pulling in an API). Usually
+some other unique identifier is provided via any well designed API, like in this
+case, where we utilize the `user.id` as our key.
+
+Finally, within our `v-for` loop, we pass the `ref`, `users` array down into our custom `<UserCard>` component. To recap briefly, recall that this array was popualted by calling `fetch()` within Vue's `onMounted()` hook.
+
+Note that within our `<UserCard>` component, we also introduce a new
+vue-directive, though it may not be apparent. Note the syntax here with each of
+our data points:
+
+```
+<UserCard
+  class="user-element"
+  :id="user.id"
+  :name="user.name"
+  :username="user.username"
+  :street="user.address.street"
+  :suite="user.address.suite"
+  :city="user.address.city"
+  :zipcode="user.address.zipcode"
+  :lat="user.address.geo.lat"
+  :lng="user.address.geo.lng"
+  :phone="user.phone"
+  :website="user.website"
+  :companyName="user.company.name"
+  :catchPhrase="user.company.catchPhrase"
+  :bs="user.company.bs"
+/>
+```
+
+The colon followed by data name is a shorthand for the `v-bind` directive, which
+is a commonly used Vue directive that allows us to pass "dynamic" props to a
+child component. It technically can also be utilized like this:
+
+```
+<UserCard
+  class="user-element"
+  v-bind:id="user.id"
+  v-bind:name="user.name"
+  v-bind:username="user.username"
+  v-bind:street="user.address.street"
+  v-bind:suite="user.address.suite"
+  v-bind:city="user.address.city"
+  v-bind:zipcode="user.address.zipcode"
+  v-bind:lat="user.address.geo.lat"
+  v-bind:lng="user.address.geo.lng"
+  v-bind:phone="user.phone"
+  v-bind:website="user.website"
+  v-bind:companyName="user.company.name"
+  v-bind:catchPhrase="user.company.catchPhrase"
+  v-bind:bs="user.company.bs"
+/>
+```
+
+But due to how common this directive is utilized in the Vue ecosystem, the
+creators of Vue shortened how to instantiate the v-bind directive. Let's move
+onto our final component where we can see how each `<UserCard>` component
+utilizes the data:
+
+```vue
+<script setup lang="ts">
+defineProps<{
+  id: number;
+  name: string;
+  username: string;
+  street: string;
+  suite: string;
+  city: string;
+  zipcode: string;
+  lat: string;
+  lng: string;
+  phone: string;
+  website: string;
+  companyName: sring;
+  catchPhrase: string;
+  bs: string;
+}>();
+</script>
+
+<template>
+  <div class="user-card">
+    <p><em>id:</em> {{ id }}</p>
+    <p><em>Name:</em> {{ name }}</p>
+    <p><em>UserName:</em> {{ username }}</p>
+    <p><em>Address:</em> {{ street }}</p>
+    <p><em>Suite:</em> {{ suite }}</p>
+    <p><em>City:</em> {{ city }}</p>
+    <p><em>ZipCode:</em> {{ zipcode }}</p>
+    <p><em>Latitude:</em> {{ lat }}</p>
+    <p><em>Longitude:</em> {{ lng }}</p>
+    <p><em>PhoneNumber:</em> {{ phone }}</p>
+    <p><em>WebSite:</em> {{ website }}</p>
+    <p><em>CompanyName:</em> {{ companyName }}</p>
+    <p><em>CatchPhrase:</em> {{ catchPhrase }}</p>
+    <p><em>BS:</em> {{ bs }}</p>
+  </div>
+</template>
+
+<style scoped>
+.user-card {
+  text-align: left;
+  font-size: 22.5px;
+  color: #34495e;
+  overflow: scroll;
+  text-wrap: nowrap;
+}
+.user-card > p {
+  font-weight: 400;
+}
+em {
+  font-weight: 500;
+}
+</style>
+```
+
+As you can see, there really isn't too much going on here that we haven't
+covered already. We invoke `defineProps()` to get access to the data we bound
+using the `v-bind` directive in the `<HelloWorld>` parent component.
+
+As an aside, note that the majority of the text around `defineProps()` is
+related to TypeScript (in JavaScript, we'd simply invoke the `defineProps()` API
+and call it a day).
+
+```vue
+<script setup lang="ts">
+defineProps<{
+  id: number;
+  name: string;
+  username: string;
+  street: string;
+  suite: string;
+  city: string;
+  zipcode: string;
+  lat: string;
+  lng: string;
+  phone: string;
+  website: string;
+  companyName: sring;
+  catchPhrase: string;
+  bs: string;
+}>();
+// in JS: defineProps();
+</script>
+```
+
+Having access to these props, we can then simply populate our `<template>` with
+the props data using the ejs handlebars syntax:
+
+```vue
+<template>
+  <div class="user-card">
+    <p><em>id:</em> {{ id }}</p>
+    <p><em>Name:</em> {{ name }}</p>
+    <p><em>UserName:</em> {{ username }}</p>
+    <p><em>Address:</em> {{ street }}</p>
+    <p><em>Suite:</em> {{ suite }}</p>
+    <p><em>City:</em> {{ city }}</p>
+    <p><em>ZipCode:</em> {{ zipcode }}</p>
+    <p><em>Latitude:</em> {{ lat }}</p>
+    <p><em>Longitude:</em> {{ lng }}</p>
+    <p><em>PhoneNumber:</em> {{ phone }}</p>
+    <p><em>WebSite:</em> {{ website }}</p>
+    <p><em>CompanyName:</em> {{ companyName }}</p>
+    <p><em>CatchPhrase:</em> {{ catchPhrase }}</p>
+    <p><em>BS:</em> {{ bs }}</p>
+  </div>
+</template>
+```
+
+And that's it. Here is what our final output looks like:
+
+(slide_06.gif)
+
+### Conclusion
