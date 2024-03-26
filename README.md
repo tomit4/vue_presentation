@@ -1128,3 +1128,38 @@ And that's it. Here is what our final output looks like:
 (slide_06.gif)
 
 ### Conclusion
+
+In truth, we have only really scratched the surface of what VueJS has to offer.
+We didn't even cover the Page Router([Vue-Router](https://router.vuejs.org/)), the State Manager, [Pinia](https://pinia.vuejs.org/core-concepts/state.html), or the Meta Framework, [Nuxt](https://nuxt.com/).
+
+Keep in mind that Vue is now on its 3rd version, and very much like ReactJS,
+there are <em>significant</em> differences between versions, so should you
+choose to use Vue, I highly recommend you use Vue3, as Vue2 is deprecated,
+and it utilizes a less ergonomic syntax (i.e. always work with the Composition
+API, and use the "setup" option with the `<script>` tags by default). As always,
+be discerning when looking into documentation that is over a year old. Like
+other JavaScript frameworks, VueJS's ecosystem moves rapidly and changes
+quickly. They have recently been experimenting with a new "Vapor" mode that
+will allow Developers to experiment with direct JavaScript compilation
+instead of working with a Virtual DOM. This is very much taking inspirations
+from both the SvelteJS JavaScript library, and in my opinion holds great
+potential for the future of Frontend Web Development.
+
+As mentioned earlier, it is not lost on me that ReactJS is the defacto standard
+in the JavaScript framework ecosystem at this time. And while I do appreciate
+all that ReactJS has done to advance this aspect of Web Development further,
+there are a great number of JavaScript frameworks out there that offer up
+different approaches to handling classic Front End Web Development
+challenges. VueJS, while my personal favorite, is just one of them, and I'd
+invite you to take a look at others (SvelteJS takes a lot of inspiration
+stylistically from VueJS, and SolidJS remains the most performant of all
+the modern frontend JavaScript frameworks currently).
+
+#### Other Vue Related Resources
+
+I invite you to look into VueJS, and it's large ecosystem which includes their:
+
+- [Jobs Board](https://vuejobs.com/?ref=vuejs)
+- [Discord Channel](https://discord.com/invite/HBherRA)
+
+And of course, you can find more out at their [Official Website](https://vuejs.org/).
