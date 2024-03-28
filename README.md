@@ -30,11 +30,10 @@ easily manipulate the DOM (Document Object Model).
 More modern JavaScript Libraries have been in active development and usage
 since the release of Google's AngularJS in 2010, and Facebook's ReactJS in 2013. The
 history of each of these libraries indicates that the complexity of what
-web developers have been tasked with creating has only become more and more
-complex over the years. Therefore, in order to alleviate some of the common
-technical hurdles encounted when creating a modern Web Application, JavaScript Libraries like
-AngularJS and ReactJS were created to improve Developer Experience and to speed up
-Development Lifecycles.
+web developers have been tasked with creating has only increased over the years.
+Therefore, in order to alleviate some of the common technical hurdles encounted
+when creating a modern Web Application, JavaScript Libraries like AngularJS and
+ReactJS were created to improve Developer Experience and to speed up Development Lifecycles.
 
 Although most Web Developers (at least in the USA) utilize ReactJS, there are now
 a plethora of Frontend JavaScript Libraries to choose from today including SvelteJS,
