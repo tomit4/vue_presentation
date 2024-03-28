@@ -12,7 +12,7 @@ The ecosystem within Web Development is perhaps the most fast past and
 continually changing environment out of all Development Fields. While the
 majority of Web Developers will point to their bread and butter tools like HTML,
 CSS, and JavaScript as being the cornerstone necessities of their field, it would be
-naive to claim that that'https://vuejs.org/guide/quick-start.htmls all one needs to know to work within Web
+naive to claim that that's all one needs to know to work within Web
 Development today. Keeping up with Web Standards such as Semantic and Accessible HTML,
 Browser Compatibility, Search Engine Optimization, and a plethora of other
 conventions is only scratching the surface of what one needs to become familiar with.
