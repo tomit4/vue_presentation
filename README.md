@@ -15,7 +15,7 @@ CSS, and JavaScript as being the cornerstone necessities of their field, it woul
 naive to claim that that's all one needs to know to work within Web
 Development today. Keeping up with Web Standards such as Semantic and Accessible HTML,
 Browser Compatibility, Search Engine Optimization, and a plethora of other
-conventions is only scratching the surface of what one needs to become familiar with.
+conventions is only scratching the surface of what one needs to become familiar with in order to stay relevant within the field.
 
 One of the most contentious and exciting aspects of Frontend Web Development is
 that of JavaScript Libraries. Very briefly, a JavaScript library is a collection
