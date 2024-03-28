@@ -1041,7 +1041,7 @@ defineProps<{
   lng: string;
   phone: string;
   website: string;
-  companyName: sring;
+  companyName: string;
   catchPhrase: string;
   bs: string;
 }>();
